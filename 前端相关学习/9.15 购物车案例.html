@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='app'>
+    {{ message }}
+    <h2>保留两位小数</h2>
+    <span>{{ price | showPrice }}</span>
+    <span>{{ dealPrice }}</span>
+  </div>
+  <script src='./vue.js'></script>
+  <script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: 'vue 模版内容',
+      price: 123.123,
+      items: [
+        {
+          name: 'apple',
+        },
+        {
+          name: 'hw',
+        },
+        {
+          name: 'vivo',
+        }
+      ],
+      scores: [10, 20, 30, 50, 111, 222, 333]
+    },
+    created () {
+      // this.getItems(this.items)
+      this.useHighFunc(this.scores)
+      this.useCombineHighFunc(this.scores)
+    },
+    methods: {
+      // 保留两位小数 way1 拼接
+      // way2 方法 ===> way3: computed
+
+      // for 的使用
+      getItems(items) {
+        // of 为对象便利
+        for(let item of items) {
+          console.log(item)
+        }
+        // in 索引值
+        for (let item in items) {
+          // 0 , 1, 2... 类似的索引值
+          console.log(item)
+        }
+      },
+
+      // 高阶函数相关使用 对象同样可以使用 当前值则为 object (取出需要的)
+      useHighFunc(arr) {
+        //1. filter()
+        let newArr = arr.filter(function(value, index, arr) {
+          console.log('value:', value)
+          console.log('index:', index)
+          console.log('arr:', arr)
+          return value > 50
+        })
+        console.log('filter arr:', newArr)
+
+        // 2. 使用map 数组每个内容进行操作
+        newArr = arr.map((value, index, arr) => {
+          console.log('value:', value)
+          console.log('index:', index)
+          console.log('arr:', arr)
+          return value * 2
+        })
+        console.log('map arr:', newArr)
+
+        // 3. 使用reduce 进行操作 可改为箭头函数
+        newArr = arr.reduce((preVal, curVal) => {
+          console.log('pre:', preVal)
+          console.log('curVal', curVal)
+          return preVal + curVal
+        })
+        console.log('reduce:', newArr)
+      },
+      // 综合使用, 函数式编程
+      useCombineHighFunc(arr) {
+        // 1. 先筛选
+        let Result = arr.filter((value) => {
+          return value > 50
+          // [111, 222, 333]
+        }).map((value) => {
+          return value * 2
+          // [222, 444, 666]
+        }).reduce((preVal, curVal) => {
+          return preVal + curVal
+          // 1332
+        })
+        // 简写: 一个参数的时候，一个返回语句的时候
+        Result = arr.filter(value => value > 50).map(value => value * 2).reduce((preVal, curVal) => preVal + curVal)
+        console.log('combine使用:', Result)
+      }
+    },
+    computed: {
+      dealPrice() {
+        return this.price.toFixed(2)
+      }
+    },
+    // way4: 过滤器 更为通用
+    filters: {
+      showPrice(price) {
+        // 保留几位小数
+        return price.toFixed(2)
+      }
+    }
+    // 新增内容, 点击新增数组某个内容, 通过循环下标可以
+  })
+  </script>
+</body>
+</html>
