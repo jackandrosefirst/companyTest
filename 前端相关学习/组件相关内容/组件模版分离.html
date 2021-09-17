@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='app'>
+    {{ message }}
+    <news></news>
+    <test></test>
+  </div>
+
+  <!-- 抽离 1  type 不容易记住-->
+  <script type="text/x-template" id="news">
+  <div>
+    <h2>test新闻</h2>
+    <h3>test新闻...</h3>
+  </div>
+  </script>
+<!-- template 抽取出去 -->
+  <template id="test">
+    <div>
+      <h2>{{ title }}</h2>
+      <h2>test新闻123123</h2>
+      <h3>test新闻...</h3>
+    </div>
+  </template>
+
+  <script src='../vue.js'></script>
+  <script>
+  // 1. 全局组件
+  Vue.component('test', {
+    // 抽离模版内容, 绑定id
+    template: '#test',
+    data () {
+      return {
+        title: '这是组件的数据'
+      }
+    }
+  })
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: 'vue 模版内容'
+    },
+    methods: {
+    }
+  })
+  </script>
+</body>
+</html>

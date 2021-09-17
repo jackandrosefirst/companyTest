@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='app'>
+    {{ message }}
+    <news></news>
+    <test></test>
+  </div>
+  <script src='../vue.js'></script>
+  <script>
+  // 1. 创建 const = news = Vue.extend()
+  // 2. 注册组件 全局
+  Vue.component('news', {
+    template: `
+    <div>
+      <h2>测试新闻</h2>
+      <h3>其他新闻...</h3>
+    </div>
+    `,
+  })
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: 'vue 模版内容'
+    },
+    methods: {
+    },
+    components: {
+      // 局部组件注册 （更多使用该模式）
+      'test': {
+        template: `
+          <div>
+            <h2>test新闻</h2>
+            <h3>test新闻...</h3>
+          </div>
+        `,
+      }
+    }
+  })
+  </script>
+</body>
+</html>

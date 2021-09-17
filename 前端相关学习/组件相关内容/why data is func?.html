@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计数器的封装使用</title>
+</head>
+<body>
+  <div id='app'>
+    {{ message }}
+    <h2>计算器</h2>
+    <calculator></calculator>
+    <calculator></calculator>
+  </div>
+
+  <template id="calculator">
+    <div>
+      <h2>当前计数：{{ num }}</h2>
+      <button @click="add">➕加</button>
+      <button @click="decrease">➖减</button>
+    </div>
+  </template>
+  <script src='../vue.js'></script>
+  <script>
+  Vue.component('calculator', {
+    template: '#calculator',
+    data () {
+      return {
+        num: 0,
+      }
+    },
+    methods: {
+      add () {
+        this.num++
+      },
+      decrease () {
+        this.num--
+      }
+    }
+  })
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: 'vue 模版内容'
+    },
+    methods: {
+
+    }
+  })
+  </script>
+</body>
+</html>

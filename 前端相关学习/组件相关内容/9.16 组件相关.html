@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='app'>
+    <!-- 列如多次使用html代码 （简单版） -->
+    <news-info></news-info>
+    <news-info-test></news-info-test>
+  </div>
+  <script src='../vue.js'></script>
+  <script>
+  
+  // 1. 创建
+  const constructor = Vue.extend({
+    template: `
+    <div>
+      <h2>新闻标题</h2>
+      <p>新闻内容....</p>
+      <h3>其他新闻...</h3>
+    </div>
+    `
+  })
+
+  // 2. 注册 此时为(全局组件）少用
+  Vue.component('news-info', constructor)
+
+  // 3. 使用
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: 'vue 模版内容'
+    },
+    methods: {
+    },
+    // 例子局部
+    components: {
+      'news-info-test': constructor
+    }
+  })
+  </script>
+</body>
+</html>

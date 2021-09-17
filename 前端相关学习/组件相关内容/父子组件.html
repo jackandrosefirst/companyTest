@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='app'>
+    {{ message }}
+    <test></test>
+  </div>
+  <script src='../vue.js'></script>
+  <script>
+  const news = Vue.extend({
+    template: `
+    <div>
+      <h4>新闻内容...1</h4>
+      <h4>新闻内容...2</h4>
+    </div>
+    `
+  })
+  const test = Vue.extend({
+    // 解析中发现 news 先局部，在全局寻找
+    template: `
+    <div>
+      <h2>测试新闻</h2>
+      <news></news>
+      <h3>其他新闻...</h3>
+    </div>
+    `,
+    // 进行了news的注册
+    components: {
+      news: news
+    }
+  })
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: 'vue 模版内容'
+    },
+    methods: {
+    },
+    components: {
+      // test组件进行注册
+      test: test
+    }
+  })
+  </script>
+</body>
+</html>
