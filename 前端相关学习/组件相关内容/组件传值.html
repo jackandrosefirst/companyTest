@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='app'>
+    {{ message }}
+    <!-- 绑定父组件方法 脚手架才能使用驼峰-->
+    <news :books="bookArr" :name="name" :my-info="myInfo" @getdata="getdata"></news>
+  </div>
+
+  <!-- 子组件 -->
+  <template id="news">
+    <div>
+      <h2>子组件标题 {{ name }}</h2>
+      <ul>
+        <li v-for="(tmp, index) in books">
+          {{ tmp }} -- {{ index }}
+        </li>
+      </ul>
+      <p>我的信息: {{ myInfo }}</p>
+      <!-- 子组件内部方法 -->
+      <button @click="givedata">点击传递值</button>
+    </div>
+  </template>
+
+  <script src='../vue.js'></script>
+  <script>
+  const news = {
+    template: '#news',
+    // 数组形式写法
+    // props: ['books', 'name']
+    // 更好的写法
+    props: {
+      // 1. 类型限制
+      // 2. 默认值
+      books: {
+        type: Array,
+        // 最好不要这么写, 而是用方法
+        // default: [],
+        default: () => {[]},
+        // 必须的
+        required: true
+      },
+      // 不传入name，就会有默认值
+      name: { 
+        type: [String, Number],
+        default: '默认值'
+      },
+      myInfo: {
+        default: () => {[]}
+      }
+    },
+    methods: {
+      // 子组件内部点击事件
+      givedata () {
+        // 发送一个自定义事件 叫getdata
+        this.$emit('getdata', this.name, this.books)
+      }
+    }
+  }
+  
+  const app = new Vue({
+    // 根节点，当作父组件
+    el: '#app',
+    components: {
+      // 'news': news
+      // 对象增强写法
+      news
+    },
+    data: {
+      message: 'vue 模版内容',
+      bookArr: ['harryPoter', 'green book'],
+      name: 'child Node',
+      // 驼峰表示  ！注意子组件
+      myInfo: {
+        name: 'cy',
+        sex: 'boy'
+      }
+    },
+    methods: {
+      // 父组件方法
+      getdata (...data) {
+        // [Log] ["child Node", ["harryPoter", "green book"]] 
+        console.log('helllo')
+        console.log(data)
+      }
+    }
+  })
+  </script>
+</body>
+</html>
